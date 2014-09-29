@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  author: Pierre Buyle
+  description: Install and configure Forever.
+  company: Phéromone
+  license: Apache v2
+  min_ansible_version: 1.5
+  platforms:
+  - name: Ubuntu
+    versions:
+    - all
+  categories:
+  - system
+dependencies: []
+  

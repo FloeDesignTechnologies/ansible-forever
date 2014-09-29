@@ -1,0 +1,61 @@
+#!upstart
+#
+# An example upstart script for running a Node.js process as a service
+# using Forever as the process monitor. For more configuration options
+# associated with Forever, see: https://github.com/nodejitsu/forever
+#
+# You will need to set the environment variables noted below to conform to
+# your use case, and should change the description.
+#
+description "Upstart script for {{ item.name }}."
+start on startup
+stop on shutdown
+# This line is needed so that Upstart reports the pid of the Node.js process
+# started by Forever rather than Forever's pid.
+expect fork
+# The following environment variables must be set so as to define where Node.js
+# and Forever binaries and the Node.js source code can be found.
+#
+# The full path to the directory containing the node and forever binaries.
+env NODE_BIN_DIR="{{ forever_node_bin_dir }}"
+# Set the NODE_PATH to the Node.js main node_modules directory.
+env NODE_PATH="{{ forvever_node_path }}"
+# The application startup Javascript file path.
+env APPLICATION_PATH="{{ item.file }}"
+# Process ID file path.
+env PIDFILE="{{ item.pid_file|default('/var/run/%s.pid' % item.name) }}"
+# Log file path.
+env LOG="{{ item.pid_file|default('/var/log/%s.log' % item.name) }}"
+# Forever settings to prevent the application spinning if it fails on launch.
+env MIN_UPTIME="{{ item.min_uptime|default(5000) }}"
+env SPIN_SLEEP_TIME="{{ item.spin_sleep_time|default(2000) }}"
+script
+# Add the node executables to the path, which includes Forever if it is
+# installed globally, which it should be.
+PATH=$NODE_BIN_DIR:$PATH
+echo $PA
+# The minUptime and spinSleepTime settings stop Forever from thrashing if
+# the application fails immediately on launch. This is generally necessary
+# to avoid loading development servers to the point of failure every time
+# someone makes an error in application initialization code, or bringing
+# down production servers the same way if a database or other critical
+# service suddenly becomes inaccessible.
+{% if nodeapp_chdir is defined %}chdir {{ nodeapp_chdir }}{% endif %}
+exec forever \
+--pidFile $PIDFILE \
+-a \
+-l $LOG \
+--minUptime $MIN_UPTIME \
+--spinSleepTime $SPIN_SLEEP_TIME \
+start $APPLICATION_PATH
+end script
+pre-stop script
+# Add the node executables to the path.
+PATH=$NODE_BIN_DIR:$PATH
+# Here we're using the pre-stop script to stop the Node.js application
+# process so that Forever is given a chance to do its thing and tidy up
+# its data. Note that doing it this way means that each application that
+# runs under Forever must have a different start file name, regardless of
+# which directory it is in.
+exec forever stop $APPLICATION_PATH
+end script

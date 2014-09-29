@@ -1,0 +1,5 @@
+---
+# defaults file for Pheromone.forever
+forever_node_bin_dir: "/usr/local/bin"
+forvever_node_path: "/usr/local/lib/node_modules"
+forever_applications: []
