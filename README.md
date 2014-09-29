@@ -48,4 +48,6 @@ Apache v2
 Author Information
 ------------------
 
-Pierre Buyle <buyle@pheromone.ca>
+- vevmesteren <https://github.com/vevmesteren>
+- Pierre Paul Lefebvre <https://github.com/PierrePaul>
+- Pierre Buyle <buyle@pheromone.ca>

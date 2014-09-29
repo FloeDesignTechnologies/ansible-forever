@@ -1,6 +1,9 @@
 ---
 galaxy_info:
-  author: Pierre Buyle
+  author:
+   - vevmesteren
+   - Pierre Paul Lefebvre
+   - Pierre Buyle
   description: Install and configure Forever.
   company: Phéromone
   license: Apache v2
