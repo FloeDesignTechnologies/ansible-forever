@@ -2,12 +2,13 @@ Forever
 =======
 
 Ansible role to install [Forever](https://github.com/nodejitsu/forever) and and configure
-[Upstart](http://upstart.ubuntu.com/) to ensure that the given scripts runs continuously.
+[Upstart](http://upstart.ubuntu.com/) to ensure that the given [Node.js](http://www.nodejs.org/) scripts runs
+continuously.
 
 Requirements
 ------------
 
-- Node.js and npm.
+- Node.js and npm
 - Upstart
 
 Role Variables
@@ -25,18 +26,20 @@ Role Variables
     - **log_file**: Log file path. Defaults to `/var/log/{{name}}.log`.
     - **min_uptime**: Minimum uptime, in milliseconds. Defaults to `5000`.
     - **spin_sleep_time**: Spin sleep time, in milliseconds. Defaults to `2000`.
-    - **enabled**:  Whether or not the application should be enabled (defaults to true).
+    - **enabled**:  Whether or not the application should be enabled. Defaults to true.
 
 Example Playbook
 -------------------------
 
     - hosts: servers
       roles:
-         - name: forever
+         - role: forever
            forever_applications:
-           - name: "Foo Server"
-             description "the Main Foo server"
+           - name: foo-server
              file: "/home/node/foo/server.js"
+           - name: bar-daemon
+             file: "/home/node/bar/app.js"
+             min_uptime: 8000
 
 License
 -------
