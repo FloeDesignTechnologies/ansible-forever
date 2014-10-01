@@ -1,6 +1,8 @@
 ---
 - name: Install Forever package
   npm: name=forever global=yes
+- name: Forever working dir
+  file: path={{ forever_root }} state=directory owner={{ forever_user }} mode=0700
 - name: Upstart scripts for Forever managed applications
   template: src=upstart.j2 dest=/etc/init/{{item.name}}.conf owner=root group=root mode=0644
   with_items: forever_applications

@@ -8,18 +8,22 @@
 # your use case, and should change the description.
 #
 description "Upstart script for {{ item.name }}."
-start on startup
-stop on shutdown
+start on {{ forever_start_on }}
+stop on {{ forever_stop_on }}
+
+# Let Forever (and the processes it starts) be run our user.
+setuid {{ forever_user }}
+
 # This line is needed so that Upstart reports the pid of the Node.js process
 # started by Forever rather than Forever's pid.
-expect fork
-# The following environment variables must be set so as to define where Node.js
-# and Forever binaries and the Node.js source code can be found.
-#
+expect daemon
+
 # The full path to the directory containing the node and forever binaries.
 env NODE_BIN_DIR="{{ forever_node_bin_dir }}"
 # Set the NODE_PATH to the Node.js main node_modules directory.
 env NODE_PATH="{{ forvever_node_path }}"
+# The path to the directory where Forever writes files
+env FOREVER_ROOT="{{ forever_root }}"
 # The application startup Javascript file path.
 env APPLICATION_PATH="{{ item.file }}"
 # Process ID file path.
@@ -29,10 +33,20 @@ env LOG="{{ item.pid_file|default('/var/log/%s.log' % item.name) }}"
 # Forever settings to prevent the application spinning if it fails on launch.
 env MIN_UPTIME="{{ item.min_uptime|default(5000) }}"
 env SPIN_SLEEP_TIME="{{ item.spin_sleep_time|default(2000) }}"
+# The command executed by Forever to run the application.
 env COMMAND="{{item.command|default('node')}}"
-{% for key, value in (item.env|default({})).iteritems() %}
+# Application specific environment variables.
+{% if forever_env is defined %}
+{% for key, value in forever_env.iteritems() %}
 env {{ key }}="{{ value }}"
 {% endfor %}
+{% endif %}
+{% if item.env is defined %}
+{% for key, value in forever_env.iteritems() %}
+env {{ key }}="{{ value }}"
+{% endfor %}
+{% endif %}
+
 script
 # Add the node executables to the path, which includes Forever if it is
 # installed globally, which it should be.
@@ -52,6 +66,7 @@ exec forever \
 --spinSleepTime $SPIN_SLEEP_TIME \
 start $APPLICATION_PATH
 end script
+
 pre-stop script
 # Add the node executables to the path.
 PATH=$NODE_BIN_DIR:$PATH

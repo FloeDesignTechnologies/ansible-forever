@@ -1,5 +1,10 @@
 ---
 # defaults file for Pheromone.forever
+forever_root: /var/run/forever
+forever_user: root
+forever_start_on: "startup"
+forever_stop_on: "[!2345]"
+forever_env: {}
 forever_node_bin_dir: "/usr/local/bin"
-forvever_node_path: "/usr/local/lib/node_modules"
+forever_node_path: "/usr/local/lib/node_modules"
 forever_applications: []
