@@ -1,7 +1,10 @@
 ---
 galaxy_info:
-  author: Pierre Buyle
-  description: Install and configure Forever.
+  author:
+   - vevmesteren
+   - Pierre Paul Lefebvre
+   - Pierre Buyle
+  description: Ansible role to install Forever and and configure Upstart to ensure that the given Node.js scripts runs continuously.
   company: Phéromone
   license: Apache v2
   min_ansible_version: 1.5

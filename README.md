@@ -2,12 +2,13 @@ Forever
 =======
 
 Ansible role to install [Forever](https://github.com/nodejitsu/forever) and and configure
-[Upstart](http://upstart.ubuntu.com/) to ensure that the given scripts runs continuously.
+[Upstart](http://upstart.ubuntu.com/) to ensure that the given [Node.js](http://www.nodejs.org/) scripts runs
+continuously.
 
 Requirements
 ------------
 
-- Node.js and npm.
+- Node.js and npm
 - Upstart
 
 Role Variables
@@ -37,8 +38,6 @@ Role Variables
 Example Playbook
 -------------------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
     - hosts: servers
       roles:
          - name: forever
@@ -58,7 +57,6 @@ Including an example of how to use your role (for instance, with variables passe
              env:
                BIND_PORT: 8081
 
-
 License
 -------
 
@@ -67,4 +65,6 @@ Apache v2
 Author Information
 ------------------
 
-Pierre Buyle <buyle@pheromone.ca>
+- vevmesteren <https://github.com/vevmesteren>
+- Pierre Paul Lefebvre <https://github.com/PierrePaul>
+- Pierre Buyle <buyle@pheromone.ca>
