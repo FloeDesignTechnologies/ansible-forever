@@ -25,7 +25,9 @@ Role Variables
     - **log_file**: Log file path. Defaults to `/var/log/{{name}}.log`.
     - **min_uptime**: Minimum uptime, in milliseconds. Defaults to `5000`.
     - **spin_sleep_time**: Spin sleep time, in milliseconds. Defaults to `2000`.
-    - **enabled**:  Whether or not the application should be enabled (defaults to true).
+    - **enabled**:  Whether or not the application should be enabled. Defaults to `true`.
+    - **env**: Environment variables for the Upstart Job, as a hash. Defaults to `{}`.
+    - **command**: The command to use to run the application file. Defaults to `node`.
 
 Example Playbook
 -------------------------
@@ -36,9 +38,14 @@ Including an example of how to use your role (for instance, with variables passe
       roles:
          - name: forever
            forever_applications:
-           - name: "Foo Server"
-             description "the Main Foo server"
+           - name: foo-server
              file: "/home/node/foo/server.js"
+           - name koa-server
+             file "/home/node/koaapp/server.js"
+             command: node --harmony
+             env:
+               BIND_PORT: 8081
+               NODE_ENV: production
 
 License
 -------

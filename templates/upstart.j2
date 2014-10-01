@@ -29,19 +29,22 @@ env LOG="{{ item.pid_file|default('/var/log/%s.log' % item.name) }}"
 # Forever settings to prevent the application spinning if it fails on launch.
 env MIN_UPTIME="{{ item.min_uptime|default(5000) }}"
 env SPIN_SLEEP_TIME="{{ item.spin_sleep_time|default(2000) }}"
+env COMMAND="{{item.command|default('node')}}"
+{% for key, value in (item.env|default({})).iteritems() %}
+env {{ key }}="{{ value }}"
+{% endfor %}
 script
 # Add the node executables to the path, which includes Forever if it is
 # installed globally, which it should be.
 PATH=$NODE_BIN_DIR:$PATH
-echo $PA
 # The minUptime and spinSleepTime settings stop Forever from thrashing if
 # the application fails immediately on launch. This is generally necessary
 # to avoid loading development servers to the point of failure every time
 # someone makes an error in application initialization code, or bringing
 # down production servers the same way if a database or other critical
 # service suddenly becomes inaccessible.
-{% if nodeapp_chdir is defined %}chdir {{ nodeapp_chdir }}{% endif %}
 exec forever \
+-c "$COMMAND" \
 --pidFile $PIDFILE \
 -a \
 -l $LOG \
