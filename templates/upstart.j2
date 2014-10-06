@@ -42,7 +42,7 @@ env {{ key }}="{{ value }}"
 {% endfor %}
 {% endif %}
 {% if item.env is defined %}
-{% for key, value in forever_env.iteritems() %}
+{% for key, value in item.env.iteritems() %}
 env {{ key }}="{{ value }}"
 {% endfor %}
 {% endif %}
