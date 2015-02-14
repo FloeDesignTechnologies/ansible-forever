@@ -19,7 +19,7 @@ Role Variables
 - **forever_env**: Environment variables for the Upstart jobs, as a hash. Defaults to `{}`.
 - **forever_node_bin_dir**: The full path to the directory containing the node and forever binaries. Defaults to
   `"/usr/local/bin"`.
-- **forvever_node_path**: Set the full path to the Node.js main node_modules directory. Defaults to
+- **forever_node_path**: Set the full path to the Node.js main node_modules directory. Defaults to
   `"/usr/local/lib/node_modules"`.
 - **forever_applications**: A list of Node.JS application configurations, each configuration is a hash with the
   following properties:
