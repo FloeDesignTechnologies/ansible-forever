@@ -6,8 +6,8 @@
 - name: Upstart scripts for Forever managed applications
   template: src=upstart.j2 dest=/etc/init/{{item.name}}.conf owner=root group=root mode=0644
   with_items: forever_applications
-- name: Ensure enabled Forever applications are started
-  action: service name={{item.name}} state=started
+- name: Ensure enabled Forever applications are (re)started
+  action: service name={{item.name}} state=restarted
   with_items: forever_applications
   when: item.enabled|default(True)
 - name: Ensure disabled Forever applications are stopped
