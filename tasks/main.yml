@@ -11,7 +11,7 @@
 - name: Ensure enabled Forever applications are restarted if changed
   action: service name={{item.name}} state=restarted
   with_items: forever_applications
-  when: forever_upstart.changed and item.enabled|default(True)
+  when: (forever_restart or forever_upstart.changed) and item.enabled|default(True)
 
 - name: Ensure enabled Forever applications are started regardless of change
   action: service name={{item.name}} state=started

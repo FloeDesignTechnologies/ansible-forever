@@ -8,3 +8,4 @@ forever_env: {}
 forever_node_bin_dir: "/usr/local/bin"
 forever_node_path: "/usr/local/lib/node_modules"
 forever_applications: []
+forever_restart: true
