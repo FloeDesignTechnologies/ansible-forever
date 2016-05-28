@@ -26,6 +26,8 @@ env NODE_PATH="{{ forever_node_path }}"
 env FOREVER_ROOT="{{ forever_root }}"
 # The application startup Javascript file path.
 env APPLICATION_PATH="{{ item.file }}"
+# Working directory when started
+env WORKING_PATH="{{ item.working_dir|default('/') }}"
 # Process ID file path.
 env PIDFILE="{{ item.pid_file|default('/var/run/%s.pid' % item.name) }}"
 # Log file path.
@@ -60,6 +62,7 @@ PATH=$NODE_BIN_DIR:$PATH
 exec forever \
 -c "$COMMAND" \
 --pidFile $PIDFILE \
+--workingDir $WORKING_PATH \
 -a \
 -l $LOG \
 --minUptime $MIN_UPTIME \
